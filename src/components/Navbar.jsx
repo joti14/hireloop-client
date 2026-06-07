@@ -4,9 +4,20 @@ import { useState } from "react";
 import { Button } from "@heroui/react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import { signOut, useSession } from "@/lib/auth-client";
+import { motion } from "motion/react"
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session, isPending } = useSession();
+  console.log("Session data in navbar: ", session, "is pending: ", isPending);
+  const user = session?.user;
+  console.log(user, 'user')
+
+  const handleSignOut = async() => {
+    await signOut();
+  }
 
   const navLinks = [
     {
@@ -74,17 +85,20 @@ export default function Navbar() {
           <div className="mx-8 h-7 w-px bg-white/15" />
 
           {/* Sign In */}
-          <Link
-            href="/auth/signin"
-            className="
-              text-indigo-400
-              hover:text-indigo-300
-              transition-colors
-              font-medium
-            "
-          >
-            Sign In
-          </Link>
+          {
+            user ?
+              <>
+                Welcome, {user?.name}! 
+                <Button onClick={handleSignOut} variant="ghost">Sign Out</Button>
+              </>
+              :
+              <Link
+                href="/auth/signin"
+                onClick={() => setIsOpen(false)}
+                className="text-indigo-400 font-medium"
+              >
+                Sign In
+              </Link>}
 
           {/* CTA */}
           <Button
@@ -146,13 +160,19 @@ export default function Navbar() {
             ))}
 
             <div className="border-t border-white/10 pt-5 flex flex-col gap-4">
-              <Link
-                href="/auth/signin"
-                onClick={() => setIsOpen(false)}
-                className="text-indigo-400 font-medium"
-              >
-                Sign In
-              </Link>
+              {
+                user ?
+                  <>
+                    <Button variant="ghost">Sign Out</Button>
+                  </>
+                  :
+                  <Link
+                    href="/auth/signin"
+                    onClick={() => setIsOpen(false)}
+                    className="text-indigo-400 font-medium"
+                  >
+                    Sign In
+                  </Link>}
 
               <Button
                 as={Link}

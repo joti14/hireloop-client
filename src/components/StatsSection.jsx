@@ -7,6 +7,9 @@ import {
     Star
 } from "@gravity-ui/icons";
 
+import { motion } from "motion/react"
+
+
 const stats = [
     {
         icon: Briefcase,
@@ -50,11 +53,11 @@ export default function StatsSection() {
                     <div className="absolute inset-0 bg-black/10" />
                     <div className="relative flex min-h-[380px] items-center justify-center px-6 py-24 text-center">
                         <div className="max-w-3xl">
-                            <h2 className="text-3xl font-medium text-white leading-relaxed md:text-5xl">
+                            <motion.h2 animate={{ rotate: 360 }} className="text-3xl font-medium text-white leading-relaxed md:text-5xl">
                                 Assisting over <span className="font-semibold">15,000 job seekers</span>
                                 <br />
                                 find their dream positions.
-                            </h2>
+                            </motion.h2>
                         </div>
                     </div>
                 </div>
