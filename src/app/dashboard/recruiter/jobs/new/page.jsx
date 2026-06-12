@@ -13,8 +13,11 @@ import {
     ListBox,
     Switch,
     Button,
+    toast,
 } from "@heroui/react";
 import { Briefcase, Globe } from "lucide-react";
+import { createJob } from "@/lib/actions/jobs";
+import { redirect } from "next/navigation";
 
 export default function PostJobPage() {
     const [mockCompany] = useState({
@@ -69,7 +72,13 @@ export default function PostJobPage() {
             isPubliclyVisible: true,
         };
 
-        console.log("Form payload:", payload);
+        const res = await createJob(payload);
+        if(res.insertedId) {
+            toast.success('Job posted successfully');
+            e.target.reset();
+            setIsRemote(false);
+            redirect('/dashboard/recruiter');
+        }
 
     };
 
