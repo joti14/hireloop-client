@@ -11,9 +11,9 @@ import { motion } from "motion/react"
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session, isPending } = useSession();
-  console.log("Session data in navbar: ", session, "is pending: ", isPending);
+  // console.log("Session data in navbar: ", session, "is pending: ", isPending);
   const user = session?.user;
-  console.log(user, 'user')
+  // console.log(user, 'user')
 
   const handleSignOut = async() => {
     await signOut();
