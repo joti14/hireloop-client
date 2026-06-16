@@ -1,26 +1,19 @@
-import JobCard from "@/components/jobs/JobCard";
+import JobListingContainer from "@/components/jobs/JobListingContainer";
 import { getJobs } from "@/lib/api/jobs";
 
-export default async function JobsPage() {
+export default async function Page() {
+  // Fetched server-side on the initial request
+  const jobs = await getJobs();
 
-    const jobs = await getJobs(); // Fetch jobs from your API
+  return (
+    <div className="w-full min-h-screen bg-zinc-950 p-6 md:p-12 text-white">
+      <div className="max-w-7xl mx-auto mb-10">
+        <h1 className="text-4xl font-bold tracking-tight">Open Positions</h1>
+        <p className="text-zinc-400 mt-2">Discover your next engineering challenge.</p>
+      </div>
 
-    return (
-        <div className="min-h-screen bg-[#09090b] p-8">
-            <div className="max-w-7xl mx-auto">
-                <h1 className="text-2xl font-bold text-white">Open Positions</h1>
-                <p className="text-sm text-muted mb-8">Discover your next engineering challenge.</p>
-
-                {/* Grid Layout to display cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {jobs.map((jobItem) => (
-                        <JobCard
-                            key={jobItem._id?.$oid || jobItem._id}
-                            job={jobItem} // Here is where you "feed" the data!
-                        />
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
+      {/* Pass data to the Client Wrapper to handle filtering interactivity */}
+      <JobListingContainer initialJobs={jobs || []} />
+    </div>
+  );
 }
