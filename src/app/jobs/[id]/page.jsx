@@ -68,12 +68,13 @@ const JobsDetailsPage = async ({ params }) => {
                         </div>
 
                         {/* Primary Interaction Action Button */}
-                        <Button 
+                        <Link
+                            href={`/jobs/${job.id}/apply`} 
                             className="w-full sm:w-auto bg-white hover:bg-zinc-200 text-zinc-950 font-semibold px-6 h-11 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shrink-0"
                         >
-                            Apply Now
+                            Apply For This Job
                             <ArrowUpRight width={16} height={16} />
-                        </Button>
+                        </Link>
                     </div>
 
                     <hr className="border-zinc-900" />

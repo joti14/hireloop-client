@@ -4,11 +4,16 @@ import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeSlash, At, ShieldKeyhole } from "@gravity-ui/icons";
 import { signIn } from "@/lib/auth-client";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SigninPage() {
     // Form fields
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirectTo = searchParams.get("redirect") || "/";
 
     // UI States
     const [isVisible, setIsVisible] = useState(false);
@@ -29,7 +34,6 @@ export default function SigninPage() {
             const { data, error: authError } = await signIn.email({
                 email,
                 password,
-                callbackURL: "/",
             });
 
             if (authError) {
@@ -38,6 +42,7 @@ export default function SigninPage() {
                 setSuccess("Signed in successfully! Redirecting...");
                 setEmail("");
                 setPassword("");
+                router.push(redirectTo);
             }
         } catch (err) {
             setError("An unexpected network error occurred.");
@@ -136,7 +141,7 @@ export default function SigninPage() {
                     {/* Navigation Option */}
                     <div className="text-center pt-4 border-t border-white/5 mt-2 text-sm text-gray-400">
                         Don't have an account?{" "}
-                        <Link href="/auth/signup" className="font-medium cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors">
+                        <Link href={`/auth/signup?redirect=${redirectTo}`} className="font-medium cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors">
                             Sign up now
                         </Link>
                     </div>
