@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Form, Button, TextField, Label, InputGroup } from '@heroui/react';
+import { Form, Button, TextField, Label, InputGroup, toast } from '@heroui/react';
 // Gravity UI Icons
 import { Link as LinkIcon, Globe, FileText, PaperPlane, TrashBin } from '@gravity-ui/icons';
+import { submitJobApplication } from '@/lib/actions/applications';
 
 const JobApply = ({ job }) => {
     // Safety check for data rendering
@@ -15,11 +16,19 @@ const JobApply = ({ job }) => {
     const [portfolioLink, setPortfolioLink] = useState("");
     const [additionalNotes, setAdditionalNotes] = useState("");
 
-    const handleSubmit = (e) => {
+    const [formData, setFormData] = useState({
+        resumeLink: '',
+        portfolioLink: '',
+        additionalNotes: ''
+    });
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         const applicationData = {
             jobId: job?._id?.$oid || job?._id,
+            companyName: job?.companyName || "",
+            jobTitle: job?.jobTitle || job?.title || "",
             resumeLink,
             portfolioLink,
             additionalNotes
@@ -27,6 +36,15 @@ const JobApply = ({ job }) => {
 
         console.log("Submitting Application Data:", applicationData);
         // Integrate your API request or backend dispatch here
+        const res = await submitJobApplication(applicationData);
+        if(res.insertedId) {
+            toast.success("Application submitted successfully!");
+            setFormData({
+                resumeLink: "",
+                portfolioLink: "",
+                additionalNotes: ""
+            });
+        }
     };
 
     const handleReset = () => {
@@ -36,7 +54,7 @@ const JobApply = ({ job }) => {
     };
 
     return (
-        <div className="w-full max-w-2xl bg-[#121214] border border-zinc-900 rounded-[24px] p-6 sm:p-8 shadow-2xl text-white">
+        <div className="w-full max-w-2xl mx-auto bg-[#1b1b1e] border border-zinc-900 rounded-[24px] p-6 sm:p-8 shadow-2xl text-white mb-10">
             {/* Header Area */}
             <div className="mb-6">
                 <span className="text-xs font-semibold text-[#e293ff] uppercase tracking-wider">
