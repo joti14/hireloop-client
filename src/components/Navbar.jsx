@@ -30,7 +30,7 @@ export default function Navbar() {
     },
     {
       name: "Pricing",
-      href: "/pricing",
+      href: "/plans",
     },
   ];
 

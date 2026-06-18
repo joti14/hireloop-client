@@ -84,7 +84,7 @@ const ApplyPage = async ({ params }) => {
 
                         {/* Plan Upgrading Link Element */}
                         <Link 
-                            href="/plan" 
+                            href="/plans" 
                             className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-zinc-950 bg-white hover:bg-zinc-200 h-9 px-4 rounded-xl transition-all shadow-md shrink-0"
                         >
                             View Upgrade Plans
