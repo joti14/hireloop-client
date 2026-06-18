@@ -6,7 +6,7 @@ import { Form, Button, TextField, Label, InputGroup, toast } from '@heroui/react
 import { Link as LinkIcon, Globe, FileText, PaperPlane, TrashBin } from '@gravity-ui/icons';
 import { submitJobApplication } from '@/lib/actions/applications';
 
-const JobApply = ({ job }) => {
+const JobApply = ({ applicant, job }) => {
     // Safety check for data rendering
     const displayTitle = job?.jobTitle || job?.title || "Position";
     const displayCompany = job?.companyName || "";
@@ -26,9 +26,12 @@ const JobApply = ({ job }) => {
         e.preventDefault();
         
         const applicationData = {
-            jobId: job?._id?.$oid || job?._id,
-            companyName: job?.companyName || "",
-            jobTitle: job?.jobTitle || job?.title || "",
+            jobId: job?._id,
+            companyName: job?.companyName,
+            jobTitle: job?.jobTitle,
+            applicantId: applicant?.id,
+            applicantName: applicant?.name,
+            applicantEmail: applicant?.email,
             resumeLink,
             portfolioLink,
             additionalNotes
