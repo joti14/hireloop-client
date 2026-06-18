@@ -7,7 +7,19 @@ import Link from 'next/link';
 
 const JobsDetailsPage = async ({ params }) => {
     const { id } = await params;
-    const job = await getJobById(id);
+    
+    let job;
+    try {
+        job = await getJobById(id);
+        console.log("Job fetched:", job);
+    } catch (error) {
+        console.error("Error fetching job:", error);
+        return (
+            <div className="min-h-screen bg-[#09090b] text-white flex flex-col items-center justify-center p-4">
+                <p className="text-zinc-500 mb-4">Failed to load job details</p>
+            </div>
+        );
+    }
 
     // Safety fallback check if database record doesn't load or is empty
     if (!job) {
@@ -69,7 +81,7 @@ const JobsDetailsPage = async ({ params }) => {
 
                         {/* Primary Interaction Action Button */}
                         <Link
-                            href={`/jobs/${job.id}/apply`} 
+                            href={`/jobs/${job._id}/apply`} 
                             className="w-full sm:w-auto bg-white hover:bg-zinc-200 text-zinc-950 font-semibold px-6 h-11 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shrink-0"
                         >
                             Apply For This Job

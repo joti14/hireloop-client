@@ -1,11 +1,14 @@
+import { getJobById } from '@/lib/api/jobs';
 import { getUserSession } from '@/lib/core/session';
 import { ChevronLeft } from '@gravity-ui/icons';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React from 'react';
+import JobApply from './JobApply';
 
 const ApplyPage = async ({ params }) => {
     const { id } = await params;
+    console.log("Received job ID for application:", id);
 
     const user = await getUserSession();
 
@@ -24,9 +27,12 @@ const ApplyPage = async ({ params }) => {
         );
     }
 
+    const job = await getJobById(id);
+    console.log("Fetched job details for application:", job);
+
     return (
         <div>
-            <h2>Apply for this job</h2>
+            <JobApply applicant={user} job={job} />
         </div>
     );
 };
