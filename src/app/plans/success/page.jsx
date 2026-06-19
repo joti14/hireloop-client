@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 // Gravity UI Icons
 import { CircleCheck, Envelope, ArrowRight } from '@gravity-ui/icons'
+import { createSubscription } from '@/lib/actions/subscriptions'
 
 export default async function Success({ searchParams }) {
   const { session_id } = await searchParams
@@ -12,6 +13,7 @@ export default async function Success({ searchParams }) {
 
   const {
     status,
+    metadata,
     customer_details: { email: customerEmail }
   } = await stripe.checkout.sessions.retrieve(session_id, {
     expand: ['line_items', 'payment_intent']
@@ -22,6 +24,14 @@ export default async function Success({ searchParams }) {
   }
 
   if (status === 'complete') {
+    const subsInfo = {
+        email: customerEmail,
+        planId: metadata.planId,
+    }
+    //Update the user table about the new plan
+    const result = await createSubscription(subsInfo);
+    console.log('Subscription creation result:', result);
+
     return (
       <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col items-center justify-center p-4 sm:p-6">
         <div className="w-full max-w-md bg-[#121214] border border-zinc-900 rounded-[24px] p-8 shadow-2xl text-center space-y-6">

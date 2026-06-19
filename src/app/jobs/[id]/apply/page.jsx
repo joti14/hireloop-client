@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import JobApply from './JobApply';
+import { getPlanById } from '@/lib/api/plans';
 
 const ApplyPage = async ({ params }) => {
     const { id } = await params;
@@ -40,10 +41,8 @@ const ApplyPage = async ({ params }) => {
 
     // 3. Gather Application limits and data
     const applications = await getApplicationsByApplicant(user.id);
-    const plan = {
-        name: 'Free',
-        maxApplicationsPerMonth: 3
-    };
+
+    const plan = await getPlanById(user?.plan || 'seeker_free');
 
     const job = await getJobById(id);
     
