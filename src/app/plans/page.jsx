@@ -68,6 +68,7 @@ export default function PricingPage() {
     const recruiterPlans = [
         {
             name: "Free",
+            id: 'recruiter_free',
             price: "$0",
             period: "/forever",
             description: "Ideal for testing your initial corporate recruitment strategy.",
@@ -83,6 +84,7 @@ export default function PricingPage() {
         },
         {
             name: "Growth",
+            id: 'recruiter_growth',
             price: "$49",
             period: "/month",
             description: "Built for scaling engineering organizations needing consistent outreach.",
@@ -98,6 +100,7 @@ export default function PricingPage() {
         },
         {
             name: "Enterprise",
+            id: 'recruiter_enterprise',
             price: "$144",
             period: "/month",
             description: "Ultimate control, customization, and candidate access metrics.",
@@ -238,6 +241,7 @@ export default function PricingPage() {
                             {/* Footer Interaction Trigger Block */}
                             <div className="pt-8 mt-auto">
                                 <form action="/api/checkout_sessions" method="POST">
+                                    <input type="hidden" name="plan_id" value={plan.id} />
                                     <section>
                                         <button type="submit" role="link"
                                             className={`w-full h-11 font-semibold text-xs rounded-xl transition-all tracking-wide ${plan.popular
