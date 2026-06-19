@@ -16,6 +16,7 @@ export default function PricingPage() {
     const seekerPlans = [
         {
             name: "Free",
+            id: 'seeker_free',
             price: "$0",
             period: "/forever",
             description: "Essential tools to kickstart your job search journey.",
@@ -31,6 +32,7 @@ export default function PricingPage() {
         },
         {
             name: "Pro",
+            id: 'seeker_pro',
             price: "$19",
             period: "/month",
             description: "Perfect for active job seekers looking to fast-track responses.",
@@ -46,6 +48,7 @@ export default function PricingPage() {
         },
         {
             name: "Premium",
+            id: 'seeker_premium',
             price: "$39",
             period: "/month",
             description: "Maximum tracking and absolute priority placement options.",
@@ -141,7 +144,7 @@ export default function PricingPage() {
     return (
         <div className="min-h-screen bg-[#09090b] text-zinc-100 py-16 px-4 sm:px-8">
             <div className="max-w-6xl mx-auto space-y-16">
-                
+
                 {/* ================= PAGE HEADER SECTION ================= */}
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
                     <h1 className="text-3xl sm:text-5xl font-bold text-white tracking-tight">
@@ -156,21 +159,19 @@ export default function PricingPage() {
                         <div className="inline-flex bg-[#121214] p-1.5 rounded-full border border-zinc-950 shadow-inner">
                             <button
                                 onClick={() => setActiveTab("seekers")}
-                                className={`px-5 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 ${
-                                    activeTab === "seekers"
-                                        ? "bg-white text-zinc-950 shadow-md"
-                                        : "text-zinc-400 hover:text-white"
-                                }`}
+                                className={`px-5 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 ${activeTab === "seekers"
+                                    ? "bg-white text-zinc-950 shadow-md"
+                                    : "text-zinc-400 hover:text-white"
+                                    }`}
                             >
                                 For Job Seekers
                             </button>
                             <button
                                 onClick={() => setActiveTab("recruiters")}
-                                className={`px-5 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 ${
-                                    activeTab === "recruiters"
-                                        ? "bg-white text-zinc-950 shadow-md"
-                                        : "text-zinc-400 hover:text-white"
-                                }`}
+                                className={`px-5 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 ${activeTab === "recruiters"
+                                    ? "bg-white text-zinc-950 shadow-md"
+                                    : "text-zinc-400 hover:text-white"
+                                    }`}
                             >
                                 For Recruiters
                             </button>
@@ -181,13 +182,12 @@ export default function PricingPage() {
                 {/* ================= PRICING CARDS TIERS GRID ================= */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
                     {activePlansList.map((plan, index) => (
-                        <Card 
+                        <Card
                             key={index}
-                            className={`flex flex-col relative bg-[#121214] border rounded-[24px] p-6 sm:p-8 transition-all duration-300 shadow-xl ${
-                                plan.popular 
-                                    ? "border-[#e293ff]/40 shadow-[#e293ff]/5" 
-                                    : "border-zinc-900 hover:border-zinc-800"
-                            }`}
+                            className={`flex flex-col relative bg-[#121214] border rounded-[24px] p-6 sm:p-8 transition-all duration-300 shadow-xl ${plan.popular
+                                ? "border-[#e293ff]/40 shadow-[#e293ff]/5"
+                                : "border-zinc-900 hover:border-zinc-800"
+                                }`}
                         >
                             {/* Popular Accent Highlight Tag */}
                             {plan.popular && (
@@ -237,15 +237,17 @@ export default function PricingPage() {
 
                             {/* Footer Interaction Trigger Block */}
                             <div className="pt-8 mt-auto">
-                                <Button
-                                    className={`w-full h-11 font-semibold text-xs rounded-xl transition-all tracking-wide ${
-                                        plan.popular
-                                            ? "bg-[#e293ff] hover:bg-[#d67eef] text-zinc-950 shadow-lg"
-                                            : "bg-[#1c1c1f] hover:bg-zinc-800 text-zinc-200 border border-zinc-800"
-                                    }`}
-                                >
-                                    {plan.cta}
-                                </Button>
+                                <form action="/api/checkout_sessions" method="POST">
+                                    <section>
+                                        <button type="submit" role="link"
+                                            className={`w-full h-11 font-semibold text-xs rounded-xl transition-all tracking-wide ${plan.popular
+                                                ? "bg-[#e293ff] hover:bg-[#d67eef] text-zinc-950 shadow-lg"
+                                                : "bg-[#1c1c1f] hover:bg-zinc-800 text-zinc-200 border border-zinc-800"
+                                                }`}>
+                                            Checkout
+                                        </button>
+                                    </section>
+                                </form>
                             </div>
                         </Card>
                     ))}
@@ -268,7 +270,7 @@ export default function PricingPage() {
                         {faqItems.map((faq, index) => {
                             const isCurrentOpen = openFaq === index;
                             return (
-                                <div 
+                                <div
                                     key={index}
                                     className="bg-[#121214] border border-zinc-900 rounded-xl overflow-hidden transition-colors"
                                 >
@@ -280,20 +282,18 @@ export default function PricingPage() {
                                         <span className="text-zinc-200 font-medium text-sm sm:text-base group-hover:text-white transition-colors">
                                             {faq.question}
                                         </span>
-                                        <ChevronDown 
-                                            width={16} 
-                                            height={16} 
-                                            className={`text-zinc-500 transition-transform duration-300 ${
-                                                isCurrentOpen ? "transform rotate-180 text-[#e293ff]" : ""
-                                            }`} 
+                                        <ChevronDown
+                                            width={16}
+                                            height={16}
+                                            className={`text-zinc-500 transition-transform duration-300 ${isCurrentOpen ? "transform rotate-180 text-[#e293ff]" : ""
+                                                }`}
                                         />
                                     </button>
 
                                     {/* Accordion Internal Slider Content Canvas */}
-                                    <div 
-                                        className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                                            isCurrentOpen ? "max-h-[200px] border-t border-zinc-900/40" : "max-h-0"
-                                        }`}
+                                    <div
+                                        className={`transition-all duration-300 ease-in-out overflow-hidden ${isCurrentOpen ? "max-h-[200px] border-t border-zinc-900/40" : "max-h-0"
+                                            }`}
                                     >
                                         <p className="p-5 text-xs sm:text-sm text-zinc-400 leading-relaxed font-normal bg-[#161618]/30">
                                             {faq.answer}
